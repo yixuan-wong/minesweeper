@@ -4,23 +4,8 @@ import cv2
 import numpy as np
 from PIL import Image 
 
-TILE_SIZE = 23
+TILE_SIZE = 24
 TEMPLATE_DIR = "tiles"
-
-def get_region():
-    print("Hover over top left corner of the board and press Enter.")
-    input()
-    top_left = pyautogui.position()
-
-    print("Hover over bottom right corner of the board and press Enter.")
-    input()
-    bottom_right = pyautogui.position()
-
-    x, y = top_left.x, top_left.y
-    w = bottom_right.x - top_left.x
-    h = bottom_right.y - top_left.y
-
-    return (x, y, w, h)
 
 def load_templates():
     return {

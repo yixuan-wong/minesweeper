@@ -7,5 +7,3 @@ if __name__ == "__main__":
 
     for r_idx, row in enumerate(classified_board_data):
         print(f"Row{r_idx:2d}: {' '.join(f'{str(tile):<2}' for tile in row)}")
-
-

@@ -1,11 +1,58 @@
 # Minesweeper website: https://minesweeper.online/
 
-from read import make_board, TILE_SIZE
+from solveBoard import solve_board
+import time
+import pyautogui
+
+def select_device():
+    while True:
+        print("\nSelect your device:\n 1. PC\n 2. Laptop\n")
+        choice = input("Enter 1 or 2:\n").strip()
+
+        if choice == '1':
+            return "pc"
+        elif choice == '2':
+            return "laptop"
+        else:
+            print("\nInvalid choice. Try again.")
+
+def select_game_mode():
+    while True: 
+        print("\nSelect game difficulty:\n 1. Beginner\n 2. Intermediate\n 3. Expert\n 4. Insane\n")
+        choice = input("Enter 1-4:\n").strip()
+
+        if choice == '1':
+            return 'beginner'
+        elif choice == '2':
+            return 'intermediate'
+        elif choice == '3':
+            return 'expert'
+        elif choice == '4':
+            return 'insane'
+        else:
+            print("\nInvalid choice. Try again.")
 
 if __name__ == "__main__":
-    INTERMEDIATE_REGION_HOME = (991, 340, 383, 383)
+    device = select_device()
+    gamemode = select_game_mode()
 
-    classified_board_data = make_board(INTERMEDIATE_REGION_HOME)
+    regions = {
+        "pc": {
+            "beginner": (991, 340, 215, 215),
+            "intermediate": (991, 340, 383, 383),
+            "expert": (991, 340, 719, 383),
+            "insane": (909, 215, 1650, 799) # Zoom 33% 100x100
+        },
+        "laptop": {
+            "beginner": (),
+            "intermediate": (),
+            "expert": (),
+            "insane": ()
+        }
+    }
 
-    for r_idx, row in enumerate(classified_board_data):
-        print(f"Row{r_idx:2d}: {' '.join(f'{str(tile):<2}' for tile in row)}")
+    region = regions.get(device, {}).get(gamemode)
+
+    time.sleep(3)
+    
+    solve_board(region)

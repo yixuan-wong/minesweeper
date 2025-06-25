@@ -3,8 +3,12 @@ import pyautogui
 import random
 
 def click_tile(x, y): 
-    pyautogui.moveTo(x, y)
-    pyautogui.click()
+    # pyautogui.moveTo(x, y)
+    pyautogui.click(x, y)
+
+def flag_tile(x, y):
+    # pyautogui.moveTo(x, y)
+    pyautogui.click(x, y, button='right')
 
 def click_random_corner(region): 
     origin_x, origin_y = region[:2]
@@ -33,7 +37,7 @@ def get_neighbors(board, r, c):
         
     return neighbors
 
-def next_move(board, origin):
+def next_move(board, origin, flagged_tiles):
     flagged_any = True
 
     while flagged_any: 
@@ -51,11 +55,16 @@ def next_move(board, origin):
 
                 if num == len(hidden) + len(flagged) and hidden: 
                     for nr, nc in hidden: 
-                        board[nr][nc] = 'F'
+                        if (nr, nc) not in flagged_tiles:
+                            cx = origin[0] + nc * TILE_SIZE + TILE_SIZE // 2
+                            cy = origin[1] + nr * TILE_SIZE + TILE_SIZE // 2
+                            flag_tile(cx, cy)
+                            flagged_tiles.add((nr, nc))
+                            board[nr][nc] = 'F'
+                            flagged_any = True
                     
-                    flagged_any = True
-
-    clicked_any = False
+        if flagged_any: 
+            continue
 
     for r in range(len(board)):
         for c in range(len(board[0])):
@@ -73,6 +82,7 @@ def next_move(board, origin):
                     cx = origin[0] + nc * TILE_SIZE + TILE_SIZE // 2
                     cy = origin[1] + nr * TILE_SIZE + TILE_SIZE // 2
                     click_tile(cx, cy)
-                    clicked_any = True
 
-    return flagged_any or clicked_any
+                    return True
+
+    return False

@@ -9,17 +9,16 @@ TEMPLATE_DIR = "tiles"
 
 def load_templates():
     return {
-        name.split('.')[0]: cv2.imread(os.path.join(TEMPLATE_DIR, name), 0)
+        name.split('.')[0]: cv2.imread(os.path.join(TEMPLATE_DIR, name), cv2.IMREAD_COLOR)
         for name in os.listdir(TEMPLATE_DIR)
     }
 
 def classify_tiles(tile_img, templates):
-    tile_gray = cv2.cvtColor(tile_img, cv2.COLOR_BGR2GRAY)
     best_match = '-'
     best_score = 0.6
 
     for label, template in templates.items():
-        res = cv2.matchTemplate(tile_gray, template, cv2.TM_CCOEFF_NORMED)
+        res = cv2.matchTemplate(tile_img, template, cv2.TM_CCOEFF_NORMED)
         score = res.max()
 
         if score > best_score:

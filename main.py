@@ -1,8 +1,8 @@
 # Minesweeper website: https://minesweeper.online/
 
 from solveBoard import solve_board
+from readBoard import make_board
 import time
-import pyautogui
 
 def select_device():
     while True:
@@ -54,5 +54,9 @@ if __name__ == "__main__":
     region = regions.get(device, {}).get(gamemode)
 
     time.sleep(3)
-    
+
+    # board = make_board(region)
+    # for row in board:
+    #         print(" ".join(row))
+
     solve_board(region)

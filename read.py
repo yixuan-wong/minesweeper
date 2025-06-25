@@ -32,10 +32,8 @@ def make_board(region):
     img = np.array(pyautogui.screenshot(region=(x, y, w, h)))
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
-    rows = h // TILE_SIZE
-    cols = w // TILE_SIZE
-
-    img = img[:rows * TILE_SIZE, :cols * TILE_SIZE]
+    rows = round(h / TILE_SIZE)
+    cols = round(w / TILE_SIZE)
 
     templates = load_templates()
     board = []

@@ -1,41 +1,5 @@
 from readBoard import TILE_SIZE
-import pyautogui
-import random
-
-def click_tile(x, y): 
-    # pyautogui.moveTo(x, y)
-    pyautogui.click(x, y)
-
-def flag_tile(x, y):
-    # pyautogui.moveTo(x, y)
-    pyautogui.click(x, y, button='right')
-
-def click_random_corner(region): 
-    origin_x, origin_y = region[:2]
-    width, height = region[2], region[3]
-
-    corners = [
-        (origin_x + TILE_SIZE // 2, origin_y + TILE_SIZE // 2), # top left
-        (origin_x + width - TILE_SIZE // 2, origin_y + TILE_SIZE // 2), # top right
-        (origin_x + TILE_SIZE // 2, origin_y + height - TILE_SIZE // 2), # bottom left
-        (origin_x + width - TILE_SIZE // 2, origin_y + height - TILE_SIZE // 2) # bottom right
-    ]
-
-    for (x, y) in random.sample(corners, 1):
-        click_tile(x, y)
-
-def get_neighbors(board, r, c):
-    neighbors = []
-    for sr in [-1, 0, 1]: # surrounding rows
-        for sc in [-1, 0, 1]: # surrounding columns
-            if sr == 0 and sc == 0: # skip self
-                continue
-            nr, nc = r + sr, c + sc # neighbor row and neighbor column
-
-            if 0 <= nr < len(board) and 0 <= nc < len(board[0]):
-                neighbors.append((nr, nc))
-        
-    return neighbors
+from functions import click_tile, flag_tile, get_neighbors
 
 def next_move(board, origin, flagged_tiles):
     flagged_any = True

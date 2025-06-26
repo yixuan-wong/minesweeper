@@ -33,7 +33,7 @@ def first_win(region, win_region):
     game_num = 1
 
     while True:
-        print(f"\n--- Game {game_num} ---")
+        print(f"--- Game {game_num} ---")
         restart_game()
         win = solve_board(region, win_region)
 

@@ -1,16 +1,17 @@
 from readBoard import TILE_SIZE
+
 import pyautogui
+import cv2
+import numpy as np
 import random
 
 def click_tile(x, y): 
-    # pyautogui.moveTo(x, y)
-    pyautogui.click(x, y)
+    pyautogui.click(x, y, duration=0)
 
 def flag_tile(x, y):
-    # pyautogui.moveTo(x, y)
-    pyautogui.click(x, y, button='right')
+    pyautogui.click(x, y, duration=0, button='right')
 
-def click_random_corner(region): 
+def get_corners(region):
     origin_x, origin_y = region[:2]
     width, height = region[2], region[3]
 
@@ -21,8 +22,12 @@ def click_random_corner(region):
         (origin_x + width - TILE_SIZE // 2, origin_y + height - TILE_SIZE // 2) # bottom right
     ]
 
-    for (x, y) in random.sample(corners, 1):
-        click_tile(x, y)
+    return corners
+
+def click_random_corner(corners): 
+    (x, y) = random.choice(corners)
+    click_tile(x, y)
+    corners.remove((x, y))
 
 def get_neighbors(board, r, c):
     neighbors = []
@@ -63,3 +68,24 @@ def get_unopened_count(board, r, c):
             unopenedCount += 1
 
     return unopenedCount
+
+def check_win():
+    regions = [
+        (1174, 176, 51, 51), # beginner
+        (1250, 176, 51, 51),
+        (1055, 82, 449, 199)
+    ]
+
+    template_paths = ["tiles/win.png", "tiles/win2.png"]
+    threshold = 0.95
+
+    for (x, y, w, h), template_path in zip(regions, template_paths):
+        img = np.array(pyautogui.screenshot(region=(x, y, w, h)))
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+        template = cv2.imread(template_path)
+        res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+
+        if np.any(res >= threshold):
+            return True
+    
+    return False

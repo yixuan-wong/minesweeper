@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from PIL import Image 
 
-TILE_SIZE = 24
+TILE_SIZE = 32
 TEMPLATE_DIR = "tiles"
 
 def load_templates():
@@ -15,7 +15,7 @@ def load_templates():
 
 def classify_tiles(tile_img, templates):
     best_match = '-'
-    best_score = 0.6
+    best_score = 0
 
     for label, template in templates.items():
         res = cv2.matchTemplate(tile_img, template, cv2.TM_CCOEFF_NORMED)

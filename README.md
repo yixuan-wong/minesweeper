@@ -14,7 +14,7 @@ This is a Python-based bot that plays Minesweeper automatically by:
 - Applying logical deduction to safely click or flag tiles
 
 It uses basic inference logic similar to how a human would play Minesweeper.
-
+> 🔄 **Note**: This bot currently uses basic logic rules only. I plan to add support for more advanced solving techniques and common Minesweeper patterns as I learn them. I'm still new to solving Minesweeper, so this project is part of my learning process.
 ---
 
 ## 🔧 How It Works

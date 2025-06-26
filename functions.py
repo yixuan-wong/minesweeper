@@ -69,23 +69,19 @@ def get_unopened_count(board, r, c):
 
     return unopenedCount
 
-def check_win():
-    regions = [
-        (1174, 176, 51, 51), # beginner
-        (1250, 176, 51, 51),
-        (1055, 82, 449, 199)
-    ]
-
+def check_win(win_regions):
     template_paths = ["tiles/win.png", "tiles/win2.png"]
     threshold = 0.95
 
-    for (x, y, w, h), template_path in zip(regions, template_paths):
+    for (x, y, w, h) in win_regions:
         img = np.array(pyautogui.screenshot(region=(x, y, w, h)))
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        template = cv2.imread(template_path)
-        res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
 
-        if np.any(res >= threshold):
-            return True
+        for template_path in template_paths:
+            template = cv2.imread(template_path)
+            res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+
+            if np.any(res >= threshold):
+                return True
     
     return False

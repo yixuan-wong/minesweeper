@@ -3,7 +3,7 @@ from basicLogic import next_move
 from bestGuess import best_guess
 from functions import get_corners, click_random_corner, check_win
 
-def solve_board(region):
+def solve_board(region, win_region):
     origin = region [:2]
     flagged_tiles = set()
 
@@ -13,7 +13,7 @@ def solve_board(region):
     while True: 
         board = make_board(region)
 
-        if check_win():
+        if check_win(win_region):
             return True
 
         # Check if bomb has been clicked either D for bomb we clicked or X that is revealed bomb after loss

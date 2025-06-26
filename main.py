@@ -68,7 +68,17 @@ if __name__ == "__main__":
         }
     }
 
+    win_regions = {
+         "pc": {
+            "beginner": [(1174, 176, 51, 51), (1055, 82, 449, 199)],
+            "intermediate": [(1250, 176, 51, 51), (1055, 82, 449, 199)],
+            "expert": [(1250, 176, 51, 51), (1055, 82, 449, 199)],
+            "insane": ()
+        }
+    }
+
     region = regions.get(device, {}).get(gamemode)
+    win_region = win_regions.get(device, {}).get(gamemode)
 
     print("\nStarting in:")
     for i in range(3, 0, -1):
@@ -80,6 +90,6 @@ if __name__ == "__main__":
     #         print(" ".join(row))
 
     if type == '1':
-        win_percentage(region, num_games)
+        win_percentage(region, win_region, num_games)
     elif type == '2':
-        first_win(region)
+        first_win(region, win_region)

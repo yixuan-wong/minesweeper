@@ -1,6 +1,5 @@
 from solveBoard import solve_board
 import pyautogui
-import cv2
 import numpy as np
 import time
 
